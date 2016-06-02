@@ -26,7 +26,7 @@ cors_proxy.createServer({
     console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
 
-var key = "YOUR_KEY_HERE";
+var key = process.env.TUMBLR_KEY || "YOUR_KEY_HERE";
 if(key === "YOUR_KEY_HERE"){
 	console.error("You have to set your Tumblr API key to make the project work: https://www.tumblr.com/oauth/apps");
 	return;
