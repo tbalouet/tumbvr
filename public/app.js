@@ -1,14 +1,18 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+//Main file served by the application
 (function(){
 	"use strict";
-	var numberFrames = 12;
-
-	var aScene = document.querySelector("a-scene");
-	var assetList = document.createElement("a-assets");
+	var numberFrames = Math.min(tumbDatas.posts.length, 12);
+	
+	var aScene       = document.querySelector("a-scene");
+	var assetList    = document.createElement("a-assets");
 	aScene.appendChild(assetList);
 
 	var ratios = [];
 
+	/*
+	* LOADING ASSETS
+	*/
 	for(var i=0; i < numberFrames; ++i){
 		var imgAsset = document.createElement("img");
 		imgAsset.setAttribute("id", "img"+i);
@@ -19,10 +23,35 @@
 		ratios.push(tumbDatas.posts[i].photos[0].original_size.height/tumbDatas.posts[i].photos[0].original_size.width);
 	}
 
-	assetList.addEventListener("loaded", function(){
+	var galleryOBJ = document.createElement("a-asset-item");
+	galleryOBJ.setAttribute("id", "gallery-obj");
+	galleryOBJ.setAttribute("src", "assets/cavanagh.obj");
+	assetList.appendChild(galleryOBJ);
+
+	var galleryMTL = document.createElement("a-asset-item");
+	galleryMTL.setAttribute("id", "gallery-mtl");
+	galleryMTL.setAttribute("src", "assets/cavanagh.mtl");
+	assetList.appendChild(galleryMTL);
+
+	assetList.addEventListener("loaded", onAssetLoaded);
+
+
+	//Load the gallery Mesh
+	var galleryMesh = document.createElement("a-entity");
+	galleryMesh.setAttribute("obj-model", "obj: #gallery-obj; mtl: #gallery-mtl");
+	galleryMesh.setAttribute("position", new THREE.Vector3(0, 0.5, 0));
+	aScene.appendChild(galleryMesh);
+
+	
+	//Fill and place the images in the gallery
+	function onAssetLoaded(){
 		for(var i=1; i < numberFrames+1; ++i){
 			var img = document.createElement("a-image");
 			aScene.appendChild(img);
+
+			img.setAttribute("src", "#img"+(i-1));
+
+			//Position calculation for each image
 			var pos = new THREE.Vector3(0, 0.9, 0);
 			var rot = new THREE.Vector3(0, 0, 0);
 			if(i < 7){
@@ -36,25 +65,13 @@
 			}
   			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
-			img.setAttribute("src", "#img"+(i-1));
-			img.setAttribute("width", (ratios[i-1] < 1 ? 1.5 * 1 / ratios[i-1] : 1.5));
-			img.setAttribute("height", (ratios[i-1] < 1 ? 1.5 : 1.5 * ratios[i-1]));
+
+			//Size calculation for correct rendering
+			var width = Math.min(2, (ratios[i-1] < 1 ? 1.5 * 1 / ratios[i-1] : 1.5));
+			var height = Math.min(2, (ratios[i-1] < 1 ? 1.5 : 1.5 * ratios[i-1]));
+			img.setAttribute("width", width);
+			img.setAttribute("height", height);
 		}
-	});
-
-	var galleryOBJ = document.createElement("a-asset-item");
-	galleryOBJ.setAttribute("id", "gallery-obj");
-	galleryOBJ.setAttribute("src", "assets/cavanagh.obj");
-	assetList.appendChild(galleryOBJ);
-
-	var galleryMTL = document.createElement("a-asset-item");
-	galleryMTL.setAttribute("id", "gallery-mtl");
-	galleryMTL.setAttribute("src", "assets/cavanagh.mtl");
-	assetList.appendChild(galleryMTL);
-
-	var galleryMesh = document.createElement("a-entity");
-	galleryMesh.setAttribute("obj-model", "obj: #gallery-obj; mtl: #gallery-mtl");
-	galleryMesh.setAttribute("position", new THREE.Vector3(0, 0.5, 0));
-	aScene.appendChild(galleryMesh);
+	};
 })();
 },{}]},{},[1]);
