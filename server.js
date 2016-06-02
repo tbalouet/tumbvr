@@ -10,7 +10,7 @@ var cors_proxy = require('cors-anywhere');
 
 //Force launching server with environment variables
 if(conf.error){
-	console.error("Please define environment with NODE_ENV=dev/prod node server.js");
+	console.error("Please define environment with NODE_ENV=dev/prod node server.js, not "+conf.nodeenv);
 	return;
 }
 

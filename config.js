@@ -15,6 +15,6 @@ module.exports = function(){
             };
 
         default:
-            return {error : true};
+            return {error : true, nodeenv : process.env.NODE_ENV};
     }
 };
