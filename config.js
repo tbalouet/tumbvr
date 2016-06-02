@@ -7,7 +7,7 @@ module.exports = function(){
             	port : 3000
             };
 
-        case 'prod':
+        case 'production':
             return {
             	mainFile : "prod.js",
             	maxAge : 86400000,//One day cache
