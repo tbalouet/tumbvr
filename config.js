@@ -6,7 +6,7 @@ module.exports = function(){
             	maxAge : 1,//Set short maxage to allow no cache
             	port : 3000
             };
-
+        case 'prod':
         case 'production':
             return {
             	mainFile : "prod.js",
