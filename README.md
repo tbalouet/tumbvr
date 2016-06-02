@@ -6,10 +6,10 @@ You can watch the experience in VR using WebVR-compatible browsers and heaset (w
 https://medium.com/beloola-all-our-news-updates/webvr-dive-into-virtual-reality-from-your-browser-e654e0e66ed#.gyoqc0ijt
 
 Ressources:  
-AFrame by the Mozilla team: https://aframe.io/
-Tumblr API: https://www.tumblr.com/docs/en/api/v2
+AFrame by the Mozilla team: https://aframe.io/  
+Tumblr API: https://www.tumblr.com/docs/en/api/v2  
 Gallery model downloaded from Sketchfab, Cavanagh.art 3D gallery by Aerial Eye is licensed under CC Attribution
-https://skfb.ly/OQXA
+https://skfb.ly/OQXA  
 
 To use project:
 ```
