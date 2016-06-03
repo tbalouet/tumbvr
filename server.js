@@ -34,7 +34,7 @@ if(conf.error){
 //Tumblr Client to retrieve images from accounts
 var tumbClient = tumblr.createClient({ consumer_key: "testfalsekey" });
 
-
+app.set('port', (process.env.PORT || conf.port));
 app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
 
 app.get('/*', function(req, res){
@@ -47,5 +47,6 @@ app.get('/*', function(req, res){
 	});
 });
 
-app.listen(conf.port);
-console.log('Listening on port ' + conf.port);
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
