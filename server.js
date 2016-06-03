@@ -32,7 +32,7 @@ if(conf.error){
 // 	return;
 // }
 //Tumblr Client to retrieve images from accounts
-var tumbClient = tumblr.createClient({ consumer_key: key });
+var tumbClient = tumblr.createClient({ consumer_key: "testfalsekey" });
 
 
 app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
