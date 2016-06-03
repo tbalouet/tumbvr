@@ -14,7 +14,7 @@
     "watch": "watchify client/js/app/main.js -o public/app.js -v",
     "build": "browserify client/js/app/main.js | uglifyjs -cm > public/prod.js",
     "dev": "better-npm-run dev",
-    "prod": "better-npm-run prod",
+    "prod": "node server.js",
     "start": "better-npm-run prod"
   },
   "betterScripts": {
