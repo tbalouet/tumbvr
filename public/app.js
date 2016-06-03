@@ -3,6 +3,16 @@
 (function(){
 	"use strict";
 
+	/*
+	/*Set cross loaders to anonymous
+	*/
+    THREE.ImageUtils.crossOrigin                           = "anonymous";
+    THREE.ImageUtils.loadTexture.crossOrigin               = "anonymous";
+    THREE.ImageUtils.loadTexture.prototype.crossOrigin     = "anonymous";
+    THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
+    THREE.ImageUtils.loadTextureCube.crossOrigin           = "anonymous";
+    THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
+
 	var numberFrames = Math.min(tumbDatas.posts.length, 12);
 	
 	var aScene       = document.querySelector("a-scene");
@@ -24,7 +34,7 @@
 	for(var i=0; i < numberFrames; ++i){
 		var imgAsset = document.createElement("img");
 		imgAsset.setAttribute("id", "img"+i);
-		imgAsset.setAttribute("src", "https://nameless-eyrie-45995.herokuapp.com/" + tumbDatas.posts[i].photos[0].alt_sizes[2].url);
+		imgAsset.setAttribute("src", "https://nameless-eyrie-45995.herokuapp.com/" + tumbDatas.posts[i].photos[0].alt_sizes[2].url + "?tmstp=" + Date.now());
 		imgAsset.setAttribute("crossorigin", "anonymous");
 		assetList.appendChild(imgAsset);
 

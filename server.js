@@ -24,7 +24,7 @@ if(key === "YOUR_KEY_HERE"){
 var tumbClient = tumblr.createClient({ consumer_key: key });
 
 app.set('port', (process.env.PORT || conf.port));
-app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
+app.use(express.static(__dirname + '/public', {maxAge : 1}));
 
 app.get('/*', function(req, res){
 	if(req.params[0] === ""){
