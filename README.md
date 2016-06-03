@@ -5,13 +5,13 @@ The point is to create a minimalist VR project where the user can see photos fro
 You can watch the experience in VR using WebVR-compatible browsers and heaset (which is pretty much anyone of them. Pretty much):
 https://medium.com/beloola-all-our-news-updates/webvr-dive-into-virtual-reality-from-your-browser-e654e0e66ed#.gyoqc0ijt
 
-*Ressources*:  
+**Ressources**:  
 AFrame by the Mozilla team: https://aframe.io/  
 Tumblr API: https://www.tumblr.com/docs/en/api/v2  
 Gallery model downloaded from Sketchfab, Cavanagh.art 3D gallery by Aerial Eye is licensed under CC Attribution
 https://skfb.ly/OQXA  
 
-*Live Demo here*:  
+**Live Demo here**:  
 http://tumbvr.herokuapp.com/
 
 To use project:
