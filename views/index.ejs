@@ -7,7 +7,7 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<script src="aframe.js"></script>
+		<script src=<%= aFrameFile %>></script>
 		<style>
 			body {
 				width            : 100%;
@@ -23,7 +23,7 @@
 	<body>
 		<a-scene>
 			<a-sky color="#aaf"></a-sky>
-			<a-camera position="0 1.8 0"></a-camera>
+			<a-camera position="0 1 0" fov="60"></a-camera>
 			<a-light type="point" color="white" angle="90" position="0 5 0"></a-light>
 			<a-light type="ambient" color="#333"></a-light>
 		</a-scene>

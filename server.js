@@ -43,7 +43,7 @@ app.get('/*', function(req, res){
 	}
 	// Make the request to retrieve posts from tumblr
 	tumbClient.blogPosts(req.params[0]+'.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
-  		res.render('index.ejs', {mainFile : conf.mainFile, tumblrdata : data});
+  		res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
 	});
 });
 

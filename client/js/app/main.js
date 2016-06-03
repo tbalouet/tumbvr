@@ -9,6 +9,13 @@
 
 	var ratios = [];
 
+	document.querySelector('[camera]').addEventListener('componentchanged', function (evt) {
+		if (evt.detail.name === 'position') {
+			var posY = document.querySelector('[camera]').getAttribute("position").y;
+			document.querySelector('[camera]').getAttribute("position").y = Math.min(1.5, posY);;
+		}
+	});
+
 	/*
 	* LOADING ASSETS
 	*/
@@ -38,7 +45,7 @@
 	//Load the gallery Mesh
 	var galleryMesh = document.createElement("a-entity");
 	galleryMesh.setAttribute("obj-model", "obj: #gallery-obj; mtl: #gallery-mtl");
-	galleryMesh.setAttribute("position", new THREE.Vector3(0, 0.5, 0));
+	galleryMesh.setAttribute("position", new THREE.Vector3(0, 0, 0));
 	aScene.appendChild(galleryMesh);
 
 	
@@ -51,16 +58,17 @@
 			img.setAttribute("src", "#img"+(i-1));
 
 			//Position calculation for each image
-			var pos = new THREE.Vector3(0, 0.9, 0);
+			var pos = new THREE.Vector3(0, 0.4, 0);
 			var rot = new THREE.Vector3(0, 0, 0);
 			if(i < 7){
 				pos.x = i % 3 === 1 ? -2.25 : i % 3 === 2 ? 0 : 2.25;
 				pos.z = i < 4 ? -3.95 : 3.95;
+				rot.y = i < 4 ? 0 : 180;
 			}
 			else{
 				pos.x = i < 10 ? -3.95 : 3.95;
 				pos.z = i % 3 === 1 ? -2.4 : i % 3 === 2 ? 0 : 2.4;
-				rot.y = 90;
+				rot.y = i < 10 ? 90 : -90;
 			}
   			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
