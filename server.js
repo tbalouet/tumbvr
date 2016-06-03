@@ -16,7 +16,7 @@ if(conf.error){
 
 //CORS PROXY to enable fetching images from other servers
 var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
-var port = 8080;
+var port = process.env.PORT || 8080;
 
 cors_proxy.createServer({
     originWhitelist: [], // Allow all origins
