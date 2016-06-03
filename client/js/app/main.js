@@ -22,7 +22,7 @@
 	for(var i=0; i < numberFrames; ++i){
 		var imgAsset = document.createElement("img");
 		imgAsset.setAttribute("id", "img"+i);
-		imgAsset.setAttribute("src", "http://localhost:8080/"+tumbDatas.posts[i].photos[0].alt_sizes[2].url);
+		imgAsset.setAttribute("src", "http://tumbvr.herokuapp.com:8080/"+tumbDatas.posts[i].photos[0].alt_sizes[2].url);
 		imgAsset.setAttribute("crossorigin", "anonymous");
 		assetList.appendChild(imgAsset);
 

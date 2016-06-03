@@ -15,7 +15,7 @@ if(conf.error){
 }
 
 //CORS PROXY to enable fetching images from other servers
-var host = '127.0.0.1';
+var host = process.env.PORT ? 'http://tumbvr.herokuapp.com/' : '127.0.0.1';
 var port = 8080;
 
 cors_proxy.createServer({
