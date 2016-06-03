@@ -34,7 +34,7 @@
 	for(var i=0; i < numberFrames; ++i){
 		var imgAsset = document.createElement("img");
 		imgAsset.setAttribute("id", "img"+i);
-		imgAsset.setAttribute("src", "https://nameless-eyrie-45995.herokuapp.com/" + tumbDatas.posts[i].photos[0].alt_sizes[2].url + "?tmstp=" + Date.now());
+		imgAsset.setAttribute("src", "https://nameless-eyrie-45995.herokuapp.com/" + tumbDatas.posts[i].photos[0].original_size.url);
 		imgAsset.setAttribute("crossorigin", "anonymous");
 		assetList.appendChild(imgAsset);
 
