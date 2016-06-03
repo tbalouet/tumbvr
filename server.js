@@ -14,45 +14,6 @@ if(conf.error){
 	return;
 }
 
-//CORS PROXY to enable fetching images from other servers
-var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
-var port = 8080;
-
-// Grab the blacklist from the command-line so that we can update the blacklist without deploying
-// again. CORS Anywhere is open by design, and this blacklist is not used, except for countering
-// immediate abuse (e.g. denial of service). If you want to block all origins except for some,
-// use originWhitelist instead.
-var originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST);
-var originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST);
-function parseEnvList(env) {
-  if (!env) {
-    return [];
-  }
-  return env.split(',');
-}
-
-cors_proxy.createServer({
-	originBlacklist: originBlacklist,
-	originWhitelist: originWhitelist,
-	requireHeader: ['origin', 'x-requested-with'],
-    removeHeaders: [
-		'cookie',
-		'cookie2',
-		// Strip Heroku-specific headers
-		'x-heroku-queue-wait-time',
-		'x-heroku-queue-depth',
-		'x-heroku-dynos-in-use',
-		'x-request-start',
-	],
-	redirectSameOrigin: true,
-	httpProxyOptions: {
-		// Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
-		xfwd: false,
-	},
-}).listen(port, host, function() {
-    console.log('Running CORS Anywhere on ' + host + ':' + port);
-});
-
 var key = process.env.TUMBLR_KEY || "YOUR_KEY_HERE";
 if(key === "YOUR_KEY_HERE"){
 	console.error("You have to set your Tumblr API key to make the project work: https://www.tumblr.com/oauth/apps");

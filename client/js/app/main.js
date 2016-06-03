@@ -2,23 +2,6 @@
 (function(){
 	"use strict";
 
-	var cors_api_host = 'nameless-eyrie-45995.herokuapp.com';
-	var cors_api_url = 'https://' + cors_api_host + '/';
-	var slice = [].slice;
-	var origin = window.location.protocol + '//' + window.location.host;
-	var open = XMLHttpRequest.prototype.open;
-	XMLHttpRequest.prototype.open = function() {
-		var args = slice.call(arguments);
-		var targetOrigin = /^https?:\/\/([^\/]+)/i.exec(args[1]);
-		if (targetOrigin && targetOrigin[0].toLowerCase() !== origin &&
-		targetOrigin[1] !== cors_api_host) {
-			args[1] = cors_api_url + args[1];
-		}
-		return open.apply(this, args);
-	};
-
-
-
 	var numberFrames = Math.min(tumbDatas.posts.length, 12);
 	
 	var aScene       = document.querySelector("a-scene");
@@ -40,7 +23,7 @@
 	for(var i=0; i < numberFrames; ++i){
 		var imgAsset = document.createElement("img");
 		imgAsset.setAttribute("id", "img"+i);
-		imgAsset.setAttribute("src", tumbDatas.posts[i].photos[0].alt_sizes[2].url);
+		imgAsset.setAttribute("src", "https://nameless-eyrie-45995.herokuapp.com/" + tumbDatas.posts[i].photos[0].alt_sizes[2].url);
 		imgAsset.setAttribute("crossorigin", "anonymous");
 		assetList.appendChild(imgAsset);
 
