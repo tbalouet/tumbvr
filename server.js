@@ -26,7 +26,7 @@ cors_proxy.createServer({
     console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
 
-var key = process.env.TUMBLR_KEY || "YOUR_KEY_HERE";
+var key = process.env.TUMBLR_KEY || "349SxYicceWXy8ayh2wgUv29r4nnTAbbCOBVppwB0K9bs2lc2i";
 if(key === "YOUR_KEY_HERE"){
 	console.error("You have to set your Tumblr API key to make the project work: https://www.tumblr.com/oauth/apps");
 	return;
@@ -37,7 +37,11 @@ var tumbClient = tumblr.createClient({ consumer_key: key });
 
 app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
 
-app.get('/*', function(req, res){
+app.get('/', function(req, res){
+	res.render('home.ejs', {aFrameFile : conf.aFrameFile});
+});
+
+app.get('/tumbvr', function(req, res){
 	if(req.params[0] === ""){
 		req.params[0] = "aframevr";
 	}
