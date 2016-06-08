@@ -15,7 +15,7 @@ if(conf.error){
 }
 
 //CORS PROXY to enable fetching images from other servers
-var host = process.env.PORT ? '0.0.0.0' : '127.0.0.1';
+var host = '0.0.0.0';
 var port = process.env.PORT || 8080;
 
 cors_proxy.createServer({
@@ -35,21 +35,33 @@ if(key === "YOUR_KEY_HERE"){
 var tumbClient = tumblr.createClient({ consumer_key: key });
 
 
-app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
+app.use(express.static(__dirname + 'tumbvr/public', {maxAge : conf.maxAge}));
+app.use('/tumbvr', express.static('public'));
 
 app.get('/', function(req, res){
 	res.render('home.ejs', {aFrameFile : conf.aFrameFile});
 });
 
-app.get('/tumbvr', function(req, res){
-	if(req.params[0] === ""){
-		req.params[0] = "aframevr";
+function routeTumbVR(req, res){
+	var tumbID = req.params[0];
+	if(tumbID === undefined || tumbID === ""){
+		tumbID = "aframevr";
 	}
 	// Make the request to retrieve posts from tumblr
-	tumbClient.blogPosts(req.params[0]+'.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
-  		res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
+	tumbClient.blogPosts(tumbID+'.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
+		if(data === null){
+			tumbClient.blogPosts('aframevr.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
+		  		res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
+			});
+		}
+		else{
+  			res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
+		}
 	});
-});
+};
+
+app.get('/tumbvr/*', routeTumbVR);
+app.get('/tumbvr', routeTumbVR);
 
 app.listen(conf.port);
 console.log('Listening on port ' + conf.port);
