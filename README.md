@@ -13,7 +13,7 @@ Gallery model downloaded from Sketchfab by artist JuanG3D https://sketchfab.com/
 **Live Demo here**:  
 http://tumbvr.herokuapp.com/
 
-**Article on the development process here**
+**Article on the development process here**  
 https://medium.com/@tombalou/one-day-prototyping-with-aframevr-5759279f823b#.2si49r5r0
 
 To use project:
