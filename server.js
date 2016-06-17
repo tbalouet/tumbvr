@@ -26,7 +26,7 @@ cors_proxy.createServer({
     console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
 
-var key = process.env.TUMBLR_KEY || "349SxYicceWXy8ayh2wgUv29r4nnTAbbCOBVppwB0K9bs2lc2i";
+var key = process.env.TUMBLR_KEY || "YOUR_KEY_HERE";
 if(key === "YOUR_KEY_HERE"){
 	console.error("You have to set your Tumblr API key to make the project work: https://www.tumblr.com/oauth/apps");
 	return;
@@ -39,7 +39,7 @@ app.use(express.static(__dirname + 'tumbvr/public', {maxAge : conf.maxAge}));
 app.use('/tumbvr', express.static('public'));
 
 app.get('/', function(req, res){
-	res.render('home.ejs', {aFrameFile : conf.aFrameFile});
+	res.render('home.ejs', {aFrameFile : "tumbVR/"+conf.aFrameFile});
 });
 
 function routeTumbVR(req, res){
