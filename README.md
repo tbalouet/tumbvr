@@ -8,11 +8,13 @@ https://medium.com/beloola-all-our-news-updates/webvr-dive-into-virtual-reality-
 **Ressources**:  
 AFrame by the Mozilla team: https://aframe.io/  
 Tumblr API: https://www.tumblr.com/docs/en/api/v2  
-Gallery model downloaded from Sketchfab, Cavanagh.art 3D gallery by Aerial Eye is licensed under CC Attribution
-https://skfb.ly/OQXA  
+Gallery model downloaded from Sketchfab by artist JuanG3D https://sketchfab.com/juang3d
 
 **Live Demo here**:  
-http://tumbvr.herokuapp.com/
+http://tbaloo.com/tumbvr
+
+**Article on the development process here**  
+https://medium.com/@tombalou/one-day-prototyping-with-aframevr-5759279f823b#.2si49r5r0
 
 To use project:
 ```
