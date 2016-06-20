@@ -2,7 +2,7 @@ module.exports = function(){
     switch(process.env.NODE_ENV){
         case 'dev':
             return {
-            	mainFile : "app.js",
+            	mainFile : "tumbvr_dev.js",
                 aFrameFile : "aframe.js",
             	maxAge : 1,//Set short maxage to allow no cache
             	port : 3000
@@ -10,7 +10,7 @@ module.exports = function(){
         case 'prod':
         case 'production':
             return {
-            	mainFile : "prod.js",
+            	mainFile : "tumbvr_prod.js",
                 aFrameFile : "aframe.min.js",
             	maxAge : 86400000,//One day cache
             	port : 80

@@ -35,12 +35,7 @@ if(key === "YOUR_KEY_HERE"){
 var tumbClient = tumblr.createClient({ consumer_key: key });
 
 
-app.use(express.static(__dirname + 'tumbvr/public', {maxAge : conf.maxAge}));
-app.use('/tumbvr', express.static('public'));
-
-app.get('/', function(req, res){
-	res.render('home.ejs', {aFrameFile : conf.aFrameFile});
-});
+app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
 
 function routeTumbVR(req, res){
 	var tumbID = req.params[0];
@@ -51,17 +46,17 @@ function routeTumbVR(req, res){
 	tumbClient.blogPosts(tumbID+'.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
 		if(data === null){
 			tumbClient.blogPosts('aframevr.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
-		  		res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
+		  		res.render('tumbvr_index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
 			});
 		}
 		else{
-  			res.render('index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
+  			res.render('tumbvr_index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
 		}
 	});
 };
 
-app.get('/tumbvr/*', routeTumbVR);
-app.get('/tumbvr', routeTumbVR);
+app.get('/*', routeTumbVR);
+app.get('/', routeTumbVR);
 
 app.listen(conf.port);
 console.log('Listening on port ' + conf.port);
