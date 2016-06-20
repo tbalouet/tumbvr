@@ -43,12 +43,12 @@
 
 	var galleryOBJ = document.createElement("a-asset-item");
 	galleryOBJ.setAttribute("id", "gallery-obj");
-	galleryOBJ.setAttribute("src", "assets/cavanagh.obj");
+	galleryOBJ.setAttribute("src", "/public/assets/cavanagh.obj");
 	assetList.appendChild(galleryOBJ);
 
 	var galleryMTL = document.createElement("a-asset-item");
 	galleryMTL.setAttribute("id", "gallery-mtl");
-	galleryMTL.setAttribute("src", "assets/cavanagh.mtl");
+	galleryMTL.setAttribute("src", "/public/assets/cavanagh.mtl");
 	assetList.appendChild(galleryMTL);
 
 	assetList.addEventListener("loaded", onAssetLoaded);
