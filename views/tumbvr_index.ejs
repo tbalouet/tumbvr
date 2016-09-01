@@ -7,7 +7,10 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
 		<script src=<%= aFrameFile %>></script>
+		<script src="/public/aframe-extras.min.js"></script>
+
 		<style>
 			body {
 				width            : 100%;
@@ -32,14 +35,22 @@
 	<body>
 		<div class="advertising">
 			<p>
-				Set http://tumbvr.herokuapp.com/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tumbvr.herokuapp.com/newsweek">http://tumbvr.herokuapp.com/newsweek</a> or <a href="http://tumbvr.herokuapp.com/theonlymagicleftisart">http://tumbvr.herokuapp.com/theonlymagicleftisart</a>
+				Set http://tbaloo.com/tumbvr/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tumbvr.herokuapp.com/newsweek">http://tbaloo.com/tumbvr/newsweek</a> or <a href="http://tumbvr.herokuapp.com/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a>
 			</p>
 		</div>
-		<a-scene>
+		<a-scene physics='gravity: -9.8' antialias='true'>
 			<a-sky color="#aaf"></a-sky>
-			<a-camera position="0 1 0" fov="60"></a-camera>
+			<a-camera fov="60"></a-camera>
 			<a-light type="point" color="white" angle="90" position="0 5 0"></a-light>
 			<a-light type="ambient" color="#333"></a-light>
+
+			<a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: left" sphere-collider="objects: .throwable" grab></a-entity>
+      		<a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: right" sphere-collider="objects: .throwable" grab></a-entity>
+
+			<!-- Ammo -->
+			<a-sphere id="ball1" class="throwable" dynamic-body position="1 1.25 -0.5" radius="0.10" color="green"></a-sphere>
+			<a-sphere id="ball2" class="throwable" dynamic-body position="1.25 1.25 -0.5" radius="0.10" color="blue"></a-sphere>
+			<a-sphere id="ball3" class="throwable" dynamic-body position="-1.25 1.25 -0.5" radius="0.10" color="red"></a-sphere>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>

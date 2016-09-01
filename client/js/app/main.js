@@ -1,6 +1,8 @@
 //Main file served by the application
 (function(){
 	"use strict";
+	var ImageLoader     = require("./imageLoader.js");
+	var AssetLoader = require("./assetLoader.js");
 
 	/*
 	/*Set cross loaders to anonymous
@@ -11,84 +13,49 @@
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
     THREE.ImageUtils.loadTextureCube.crossOrigin           = "anonymous";
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
-
-	var numberFrames = Math.min(tumbDatas.posts.length, 12);
 	
 	var aScene       = document.querySelector("a-scene");
 	var assetList    = document.createElement("a-assets");
 	aScene.appendChild(assetList);
 
-	var ratios = [];
+	new ImageLoader(assetList, tumbDatas.posts);
 
-	document.querySelector('[camera]').addEventListener('componentchanged', function (evt) {
-		if (evt.detail.name === 'position') {
-			var posY = document.querySelector('[camera]').getAttribute("position").y;
-			document.querySelector('[camera]').getAttribute("position").y = Math.min(1.5, posY);;
+	var davidMesh = new AssetLoader(assetList, "dae", "david", new THREE.Vector3(0, 0.1, -2), new THREE.Vector3(0.8, 0.8, 0.8));
+	davidMesh.setAttribute("dynamic-body", "shape: box; mass: 15");
+
+
+	var sceneMesh = new AssetLoader(assetList, "obj", "cavanagh", new THREE.Vector3(0, 1, 0));
+
+	/**
+	 * Add collision walls
+	 */
+	for(var i=0; i < 6; ++i){
+		var colBox = document.createElement("a-box");
+		colBox.setAttribute("static-body", "true");
+		colBox.setAttribute("id", "colBox_"+i);
+		colBox.setAttribute("visible", false);
+		if(i < 2){
+			colBox.setAttribute("width", 8);
+			colBox.setAttribute("height", 0.1);
+			colBox.setAttribute("depth", 8);
 		}
-	});
-
-	/*
-	* LOADING ASSETS
-	*/
-	for(var i=0; i < numberFrames; ++i){
-		var imgAsset = document.createElement("img");
-		imgAsset.setAttribute("id", "img"+i);
-		imgAsset.setAttribute("src", "http://ec2-52-27-113-232.us-west-2.compute.amazonaws.com:8080/" + tumbDatas.posts[i].photos[0].original_size.url);
-		imgAsset.setAttribute("crossorigin", "anonymous");
-		assetList.appendChild(imgAsset);
-
-		ratios.push(tumbDatas.posts[i].photos[0].original_size.height/tumbDatas.posts[i].photos[0].original_size.width);
+		else if(i < 4){
+			colBox.setAttribute("width", 0.1);
+			colBox.setAttribute("height", 8);
+			colBox.setAttribute("depth", 8);
+		}
+		else{
+			colBox.setAttribute("width", 8);
+			colBox.setAttribute("height", 8);
+			colBox.setAttribute("depth", 0.1);
+		}
+		aScene.appendChild(colBox);
 	}
+	document.querySelector("#colBox_0").setAttribute("position", new THREE.Vector3(0, 0, 0));
+	document.querySelector("#colBox_1").setAttribute("position", new THREE.Vector3(0, 2.8, 0));
 
-	var galleryOBJ = document.createElement("a-asset-item");
-	galleryOBJ.setAttribute("id", "gallery-obj");
-	galleryOBJ.setAttribute("src", "/public/assets/cavanagh.obj");
-	assetList.appendChild(galleryOBJ);
-
-	var galleryMTL = document.createElement("a-asset-item");
-	galleryMTL.setAttribute("id", "gallery-mtl");
-	galleryMTL.setAttribute("src", "/public/assets/cavanagh.mtl");
-	assetList.appendChild(galleryMTL);
-
-	assetList.addEventListener("loaded", onAssetLoaded);
-
-
-	//Load the gallery Mesh
-	var galleryMesh = document.createElement("a-entity");
-	galleryMesh.setAttribute("obj-model", "obj: #gallery-obj; mtl: #gallery-mtl");
-	galleryMesh.setAttribute("position", new THREE.Vector3(0, 0, 0));
-	aScene.appendChild(galleryMesh);
-
-	
-	//Fill and place the images in the gallery
-	function onAssetLoaded(){
-		for(var i=1; i < numberFrames+1; ++i){
-			var img = document.createElement("a-image");
-			aScene.appendChild(img);
-
-			img.setAttribute("src", "#img"+(i-1));
-
-			//Position calculation for each image
-			var pos = new THREE.Vector3(0, 0.4, 0);
-			var rot = new THREE.Vector3(0, 0, 0);
-			if(i < 7){
-				pos.x = i % 3 === 1 ? -2.25 : i % 3 === 2 ? 0 : 2.25;
-				pos.z = i < 4 ? -3.95 : 3.95;
-				rot.y = i < 4 ? 0 : 180;
-			}
-			else{
-				pos.x = i < 10 ? -3.95 : 3.95;
-				pos.z = i % 3 === 1 ? -2.4 : i % 3 === 2 ? 0 : 2.4;
-				rot.y = i < 10 ? 90 : -90;
-			}
-  			img.setAttribute('position', pos);
-			img.setAttribute("rotation", rot);
-
-			//Size calculation for correct rendering
-			var width = Math.min(2, (ratios[i-1] < 1 ? 1.5 * 1 / ratios[i-1] : 1.5));
-			var height = Math.min(2, (ratios[i-1] < 1 ? 1.5 : 1.5 * ratios[i-1]));
-			img.setAttribute("width", width);
-			img.setAttribute("height", height);
-		}
-	};
+	document.querySelector("#colBox_2").setAttribute("position", new THREE.Vector3(-4.1, 1, 0));
+	document.querySelector("#colBox_3").setAttribute("position", new THREE.Vector3(4.1, 1, 0));
+	document.querySelector("#colBox_4").setAttribute("position", new THREE.Vector3(0, 1, 4.1));
+	document.querySelector("#colBox_5").setAttribute("position", new THREE.Vector3(0, 1, -4.1));
 })();

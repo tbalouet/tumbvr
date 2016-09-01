@@ -9,6 +9,7 @@ https://medium.com/beloola-all-our-news-updates/webvr-dive-into-virtual-reality-
 AFrame by the Mozilla team: https://aframe.io/  
 Tumblr API: https://www.tumblr.com/docs/en/api/v2  
 Gallery model downloaded from Sketchfab by artist JuanG3D https://sketchfab.com/juang3d
+David Statue by Daniel B. https://3dwarehouse.sketchup.com/model.html?id=5843ac18799f8970f9fced92afcb9866
 
 **Live Demo here**:  
 http://tbaloo.com/tumbvr
