@@ -6,7 +6,8 @@ var AssetLoader;
 	 * Add a sculpture to the scene
 	 * @param {[type]} assetList [description]
 	 */
-	AssetLoader = function(assetList, assetType, assetName, pos, scale){
+	AssetLoader = function(assetList, assetType, assetName, pos, scale, callbackLoaded){
+		callbackLoaded = callbackLoaded || function(){};
 		this.assetList = assetList;
 
 		switch(assetType){
@@ -17,7 +18,7 @@ var AssetLoader;
 				this.loadDae(assetName);
 				break;
 		}
-		return this.addAssetMesh(assetType, assetName, pos, scale);
+		return this.addAssetMesh(assetType, assetName, pos, scale, callbackLoaded);
 	}
 
 	AssetLoader.prototype.loadObj = function(assetName){
@@ -39,7 +40,7 @@ var AssetLoader;
 		this.assetList.appendChild(assetCollada);
 	}
 
-	AssetLoader.prototype.addAssetMesh = function(assetType, assetName, pos, scale){
+	AssetLoader.prototype.addAssetMesh = function(assetType, assetName, pos, scale, callbackLoaded){
 		pos        = pos || new THREE.Vector3();
 		scale      = scale || new THREE.Vector3(1, 1, 1);
 
@@ -59,6 +60,8 @@ var AssetLoader;
 		assetMesh.setAttribute("scale", scale);
 
 		document.querySelector("a-scene").appendChild(assetMesh);
+
+		assetMesh.addEventListener("loaded", callbackLoaded);
 		return assetMesh;
 	}
 

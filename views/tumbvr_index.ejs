@@ -47,10 +47,15 @@
 			<a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: left" sphere-collider="objects: .throwable" grab></a-entity>
       		<a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: right" sphere-collider="objects: .throwable" grab></a-entity>
 
-			<!-- Ammo -->
-			<a-sphere id="ball1" class="throwable" dynamic-body position="1 1.25 -0.5" radius="0.10" color="green"></a-sphere>
-			<a-sphere id="ball2" class="throwable" dynamic-body position="1.25 1.25 -0.5" radius="0.10" color="blue"></a-sphere>
-			<a-sphere id="ball3" class="throwable" dynamic-body position="-1.25 1.25 -0.5" radius="0.10" color="red"></a-sphere>
+			<!-- Ammo and table-->
+
+			<a-sphere id="ball1" class="throwable" dynamic-body position="-0.3 1.1 -1" radius="0.10" color="green"></a-sphere>
+			<a-sphere id="ball2" class="throwable" dynamic-body position="0 1.1 -1" radius="0.10" color="blue"></a-sphere>
+			<a-sphere id="ball3" class="throwable" dynamic-body position="0.3 1.1 -1" radius="0.10" color="red"></a-sphere>
+
+			<a-box id="table" static-body position="0 1 -1" width="1" height="0.05" depth="0.3" color="grey"></a-box>
+			<a-box id="tableFootLeft" static-body position="-0.49 0.5 -1" width="0.02" height="1" depth="0.3" color="grey"></a-box>
+			<a-box id="tableFootRight" static-body position="0.49 0.5 -1" width="0.02" height="1" depth="0.3" color="grey"></a-box>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>

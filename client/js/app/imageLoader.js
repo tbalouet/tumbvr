@@ -13,7 +13,7 @@ var ImageLoader;
 		this.nbFrames = Math.min(imageData.length, 12);
 		this.loadAssets(imageData);
 
-		this.assetList.addEventListener("loaded", this.onAssetsLoaded.bind(this));
+		this.onAssetsLoaded();
 	}
 
 	/**
@@ -41,33 +41,35 @@ var ImageLoader;
 	ImageLoader.prototype.onAssetsLoaded = function(){
 		var aScene       = document.querySelector("a-scene");
 
-		for(var i=1; i < this.nbFrames+1; ++i){
+		var galleryMesh = document.querySelector('#mesh_cavanagh').getObject3D('mesh');
+
+		var planeMeshArray = galleryMesh.children.filter(function(obj){ return obj.name.indexOf("Plane") !== -1;});
+
+		for(var i=0; i < this.nbFrames; ++i){
 			var img = document.createElement("a-image");
 			aScene.appendChild(img);
 
-			img.setAttribute("src", "#img"+(i-1));
+			img.setAttribute("src", "#img"+(i));
 
-			//Position calculation for each image
-			var pos = new THREE.Vector3(0, 1.35, 0);
-			var rot = new THREE.Vector3(0, 0, 0);
-			if(i < 7){
-				pos.x = i % 3 === 1 ? -2.25 : i % 3 === 2 ? 0 : 2.25;
-				pos.z = i < 4 ? -3.95 : 3.95;
-				rot.y = i < 4 ? 0 : 180;
+			var pos = new THREE.Vector3();
+			var rot = new THREE.Vector3();
+			planeMeshArray[i].geometry.computeBoundingSphere();
+			pos.copy(planeMeshArray[i].geometry.boundingSphere.center);
+
+			if(planeMeshArray[i].name.indexOf("Rotated") !== -1){
+				rot.y = 90;
 			}
-			else{
-				pos.x = i < 10 ? -3.95 : 3.95;
-				pos.z = i % 3 === 1 ? -2.4 : i % 3 === 2 ? 0 : 2.4;
-				rot.y = i < 10 ? 90 : -90;
-			}
+
   			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
 
 			//Size calculation for correct rendering
-			var width = Math.min(2, (this.ratios[i-1] < 1 ? 1.5 * 1 / this.ratios[i-1] : 1.5));
-			var height = Math.min(2, (this.ratios[i-1] < 1 ? 1.5 : 1.5 * this.ratios[i-1]));
+			var width = Math.min(2, (this.ratios[i] < 1 ? 1.5 * 1 / this.ratios[i] : 1.5));
+			var height = Math.min(2, (this.ratios[i] < 1 ? 1.5 : 1.5 * this.ratios[i]));
 			img.setAttribute("width", width);
 			img.setAttribute("height", height);
+
+			planeMeshArray[i].visible = false;
 		}
 	}
 })();

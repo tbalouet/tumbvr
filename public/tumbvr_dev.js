@@ -7,7 +7,8 @@ var AssetLoader;
 	 * Add a sculpture to the scene
 	 * @param {[type]} assetList [description]
 	 */
-	AssetLoader = function(assetList, assetType, assetName, pos, scale){
+	AssetLoader = function(assetList, assetType, assetName, pos, scale, callbackLoaded){
+		callbackLoaded = callbackLoaded || function(){};
 		this.assetList = assetList;
 
 		switch(assetType){
@@ -18,7 +19,7 @@ var AssetLoader;
 				this.loadDae(assetName);
 				break;
 		}
-		return this.addAssetMesh(assetType, assetName, pos, scale);
+		return this.addAssetMesh(assetType, assetName, pos, scale, callbackLoaded);
 	}
 
 	AssetLoader.prototype.loadObj = function(assetName){
@@ -40,7 +41,7 @@ var AssetLoader;
 		this.assetList.appendChild(assetCollada);
 	}
 
-	AssetLoader.prototype.addAssetMesh = function(assetType, assetName, pos, scale){
+	AssetLoader.prototype.addAssetMesh = function(assetType, assetName, pos, scale, callbackLoaded){
 		pos        = pos || new THREE.Vector3();
 		scale      = scale || new THREE.Vector3(1, 1, 1);
 
@@ -60,12 +61,67 @@ var AssetLoader;
 		assetMesh.setAttribute("scale", scale);
 
 		document.querySelector("a-scene").appendChild(assetMesh);
+
+		assetMesh.addEventListener("loaded", callbackLoaded);
 		return assetMesh;
 	}
 
 })();
 module.exports = AssetLoader;
 },{}],2:[function(require,module,exports){
+var BallsManager;
+(function(){
+	"use strict";
+
+	/**
+	 * Handle the balls and put them back when throw ended
+	 * @param {[type]} ballsArray array of the balls to manage
+	 */
+	BallsManager = function(ballsIDs){
+		this.ballsArray   = [];
+		this.nbFrameReset = 60;
+		this.minDist      = 0.01;
+		this.maxDist      = 4;
+		this.tmpVec       = new THREE.Vector3();
+
+		for(var i = 0, len = ballsIDs.length; i < len; ++i){
+			var ballEntity = document.querySelector("#" + ballsIDs[i]);
+			this.ballsArray.push({
+				entity      : ballEntity,
+				iniPos      : new THREE.Vector3().copy(ballEntity.getAttribute("position")),
+				movPos      : new THREE.Vector3(),
+				countStatic : 0
+			});
+		}
+
+		this.update();
+	}
+
+	BallsManager.prototype.update = function(){
+		for(var i = 0, len = this.ballsArray.length; i < len; ++i){
+			var aBall = this.ballsArray[i];
+			this.tmpVec.copy(aBall.entity.getAttribute("position"));
+
+			if(this.tmpVec.distanceTo(aBall.iniPos) > this.maxDist){
+				if(this.tmpVec.distanceTo(aBall.movPos) < this.minDist){
+					aBall.countStatic++;
+
+					if(aBall.countStatic > this.nbFrameReset){
+						aBall.entity.pause();
+						aBall.countStatic = 0;
+						aBall.entity.setAttribute("position", aBall.iniPos);
+						aBall.entity.play();
+					}
+				}
+				aBall.movPos.copy(this.tmpVec);
+			}
+		}
+
+		requestAnimationFrame(this.update.bind(this));
+	}
+})();
+module.exports = BallsManager;
+},{}],3:[function(require,module,exports){
 var ImageLoader;
 (function(){
 	"use strict";
@@ -81,7 +137,7 @@ var ImageLoader;
 		this.nbFrames = Math.min(imageData.length, 12);
 		this.loadAssets(imageData);
 
-		this.assetList.addEventListener("loaded", this.onAssetsLoaded.bind(this));
+		this.onAssetsLoaded();
 	}
 
 	/**
@@ -109,43 +165,48 @@ var ImageLoader;
 	ImageLoader.prototype.onAssetsLoaded = function(){
 		var aScene       = document.querySelector("a-scene");
 
-		for(var i=1; i < this.nbFrames+1; ++i){
+		var galleryMesh = document.querySelector('#mesh_cavanagh').getObject3D('mesh');
+
+		var planeMeshArray = galleryMesh.children.filter(function(obj){ return obj.name.indexOf("Plane") !== -1;});
+
+		for(var i=0; i < this.nbFrames; ++i){
 			var img = document.createElement("a-image");
 			aScene.appendChild(img);
 
-			img.setAttribute("src", "#img"+(i-1));
+			img.setAttribute("src", "#img"+(i));
 
-			//Position calculation for each image
-			var pos = new THREE.Vector3(0, 1.35, 0);
-			var rot = new THREE.Vector3(0, 0, 0);
-			if(i < 7){
-				pos.x = i % 3 === 1 ? -2.25 : i % 3 === 2 ? 0 : 2.25;
-				pos.z = i < 4 ? -3.95 : 3.95;
-				rot.y = i < 4 ? 0 : 180;
+			var pos = new THREE.Vector3();
+			var rot = new THREE.Vector3();
+			planeMeshArray[i].geometry.computeBoundingSphere();
+			pos.copy(planeMeshArray[i].geometry.boundingSphere.center);
+
+			if(planeMeshArray[i].name.indexOf("Rotated") !== -1){
+				rot.y = 90;
 			}
-			else{
-				pos.x = i < 10 ? -3.95 : 3.95;
-				pos.z = i % 3 === 1 ? -2.4 : i % 3 === 2 ? 0 : 2.4;
-				rot.y = i < 10 ? 90 : -90;
-			}
+
   			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
 
 			//Size calculation for correct rendering
-			var width = Math.min(2, (this.ratios[i-1] < 1 ? 1.5 * 1 / this.ratios[i-1] : 1.5));
-			var height = Math.min(2, (this.ratios[i-1] < 1 ? 1.5 : 1.5 * this.ratios[i-1]));
+			var width = Math.min(2, (this.ratios[i] < 1 ? 1.5 * 1 / this.ratios[i] : 1.5));
+			var height = Math.min(2, (this.ratios[i] < 1 ? 1.5 : 1.5 * this.ratios[i]));
 			img.setAttribute("width", width);
 			img.setAttribute("height", height);
+
+			planeMeshArray[i].visible = false;
 		}
 	}
 })();
 module.exports = ImageLoader;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 //Main file served by the application
 (function(){
 	"use strict";
-	var ImageLoader     = require("./imageLoader.js");
-	var AssetLoader = require("./assetLoader.js");
+	var ImageLoader  = require("./imageLoader.js");
+	var AssetLoader  = require("./assetLoader.js");
+	var BallsManager = require("./ballsManager.js");
+
+	var SCENE_SIZE = 7.92;//Magic number calculated from the scene object
 
 	/*
 	/*Set cross loaders to anonymous
@@ -161,13 +222,65 @@ module.exports = ImageLoader;
 	var assetList    = document.createElement("a-assets");
 	aScene.appendChild(assetList);
 
-	new ImageLoader(assetList, tumbDatas.posts);
-
-	var davidMesh = new AssetLoader(assetList, "dae", "david", new THREE.Vector3(0, 0.1, -2), new THREE.Vector3(0.8, 0.8, 0.8));
+	/**
+	 * Load the David statue
+	 */
+	var davidMesh = new AssetLoader(assetList, "dae", "david", new THREE.Vector3(0, 0.1, 2), new THREE.Vector3(0.8, 0.8, 0.8));
 	davidMesh.setAttribute("dynamic-body", "shape: box; mass: 15");
+	davidMesh.setAttribute("rotation", new THREE.Vector3(0, 90, 0));
 
+	/**
+	 * Function to check if the model is fully loaded before calling callback
+	 * @param  {[type]}   objID     the ID of the aframe object
+	 * @param  {[type]}   className class to compare the object to
+	 * @param  {Function} callback  callback to be called once the object is complete
+	 */
+	function checkObject3DTypeLoop(objID, className, callback){
+		callback = callback || function(){};
+		if(document.querySelector('#'+objID).getObject3D('mesh') instanceof className){
+			callback();
+		}
+		else{
+			setTimeout(function(){
+				checkObject3DTypeLoop(objID, className, callback);
+			}, 250);
+		}
+	}
 
-	var sceneMesh = new AssetLoader(assetList, "obj", "cavanagh", new THREE.Vector3(0, 1, 0));
+	/**
+	 * Create the gallery scene by loading the mesh then adding pictures from tumblr
+	 * @param  {[type]} virtualSceneSize Size {x: value, z: value} if we want the virtual room to be adapted (bad idea->clostrophobia)
+	 * @return {[type]}                  [description]
+	 */
+	function createScene(virtualSceneSize){
+		var sceneMesh = undefined;
+		sceneMesh = new AssetLoader(assetList, "obj", "cavanagh", new THREE.Vector3(), new THREE.Vector3(virtualSceneSize.x / SCENE_SIZE, 1, virtualSceneSize.z / SCENE_SIZE), function(){
+			//Function to check if scene object correctly loaded before appending images to it
+			checkObject3DTypeLoop("mesh_cavanagh", THREE.Group, function(){
+				new ImageLoader(assetList, tumbDatas.posts);
+			});
+		});
+	}
+	createScene({x : SCENE_SIZE, z : SCENE_SIZE});
+
+	var ballsIDs = ["ball1", "ball2", "ball3"];
+	new BallsManager(ballsIDs);
+
+	// var getVRDisplays = navigator.getVRDisplays || navigator.getVRDevices;
+
+	// if(getVRDisplays){
+	// 	navigator.getVRDisplays().then( function(data){
+	// 		if(data.length && data[0].stageParameters){
+	// 			createScene({x : data[0].stageParameters.sizeX, z : data[0].stageParameters.sizeZ});
+	// 		}
+	// 		else{
+	// 			createScene({x : SCENE_SIZE, z : SCENE_SIZE});
+	// 		}
+	// 	});
+	// }
+	// else{
+	// 	createScene({x : SCENE_SIZE, z : SCENE_SIZE});
+	// }
 
 	/**
 	 * Add collision walls
@@ -202,4 +315,4 @@ module.exports = ImageLoader;
 	document.querySelector("#colBox_4").setAttribute("position", new THREE.Vector3(0, 1, 4.1));
 	document.querySelector("#colBox_5").setAttribute("position", new THREE.Vector3(0, 1, -4.1));
 })();
-},{"./assetLoader.js":1,"./imageLoader.js":2}]},{},[3]);
+},{"./assetLoader.js":1,"./ballsManager.js":2,"./imageLoader.js":3}]},{},[4]);
