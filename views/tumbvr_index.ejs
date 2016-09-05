@@ -38,7 +38,7 @@
 				Set http://tbaloo.com/tumbvr/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tumbvr.herokuapp.com/newsweek">http://tbaloo.com/tumbvr/newsweek</a> or <a href="http://tumbvr.herokuapp.com/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a>
 			</p>
 		</div>
-		<a-scene physics='gravity: -9.8' antialias='true'>
+		<a-scene physics='gravity: -9.8;debug:true' antialias='true'>
 			<a-sky color="#aaf"></a-sky>
 			<a-camera fov="60"></a-camera>
 			<a-light type="point" color="white" angle="90" position="0 5 0"></a-light>
@@ -49,13 +49,18 @@
 
 			<!-- Ammo and table-->
 
-			<a-sphere id="ball1" class="throwable" dynamic-body position="-0.3 1.1 -1" radius="0.10" color="green"></a-sphere>
-			<a-sphere id="ball2" class="throwable" dynamic-body position="0 1.1 -1" radius="0.10" color="blue"></a-sphere>
-			<a-sphere id="ball3" class="throwable" dynamic-body position="0.3 1.1 -1" radius="0.10" color="red"></a-sphere>
+			<a-sphere id="ball1" class="throwable" dynamic-body position="-0.4 1.1 -1" radius="0.05" color="green"></a-sphere>
+			<a-sphere id="ball2" class="throwable" dynamic-body position="-0.3 1.1 -1" radius="0.05" color="blue"></a-sphere>
+			<a-sphere id="ball3" class="throwable" dynamic-body position="-0.2 1.1 -1" radius="0.05" color="red"></a-sphere>
 
 			<a-box id="table" static-body position="0 1 -1" width="1" height="0.05" depth="0.3" color="grey"></a-box>
 			<a-box id="tableFootLeft" static-body position="-0.49 0.5 -1" width="0.02" height="1" depth="0.3" color="grey"></a-box>
 			<a-box id="tableFootRight" static-body position="0.49 0.5 -1" width="0.02" height="1" depth="0.3" color="grey"></a-box>
+
+			<a-box id="tableBasket3" static-body position="-0.49 1.125 -1" width="0.02" height="0.2" depth="0.3" color="#4E57B2"></a-box>
+			<a-box id="tableBasket2" static-body position="-0.34 1.125 -1.14" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
+			<a-box id="tableBasket4" static-body position="-0.34 1.125 -0.86" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
+			<a-box id="tableBasket1" static-body position="-0.19 1.125 -1" width="0.02" height="0.2" depth="0.3" color="#4E57B2"></a-box>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>
