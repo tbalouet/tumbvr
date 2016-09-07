@@ -10,6 +10,8 @@ AFrame by the Mozilla team: https://aframe.io/
 Tumblr API: https://www.tumblr.com/docs/en/api/v2  
 Gallery model downloaded from Sketchfab by artist JuanG3D https://sketchfab.com/juang3d
 David Statue by Daniel B. https://3dwarehouse.sketchup.com/model.html?id=5843ac18799f8970f9fced92afcb9866
+Speaker by kathiastaff is licensed under CC Attribution https://skfb.ly/KzCK
+Amazing Grace 2011 Kevin MacLeod (incompetech.com) Licensed under Creative Commons: By Attribution 3.0 License http://creativecommons.org/licenses/by/3.0/
 
 **Live Demo here**:  
 http://tbaloo.com/tumbvr

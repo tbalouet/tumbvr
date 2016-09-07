@@ -290,6 +290,16 @@ module.exports = ImageLoader;
 	davidMesh.setAttribute("rotation", new THREE.Vector3(0, 90, 0));
 
 	/**
+	 * Load the speaker mesh
+	 */
+	var audioAsset = document.createElement("audio");
+	audioAsset.setAttribute("id", "amazingGrace2011");
+	audioAsset.setAttribute("src", "public/amazingGrace2011.WAV");
+	assetList.appendChild(audioAsset);
+	var speakerMesh = new AssetLoader(assetList, "obj", "speaker", new THREE.Vector3(0, 0, -1.05), new THREE.Vector3(0.4, 0.4, 0.4));
+	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;autoplay:true;loop:true");
+
+	/**
 	 * Function to check if the model is fully loaded before calling callback
 	 * @param  {[type]}   objID     the ID of the aframe object
 	 * @param  {[type]}   className class to compare the object to
