@@ -35,12 +35,14 @@
 	<body>
 		<div class="advertising">
 			<p>
-				Set http://tbaloo.com/tumbvr/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tumbvr.herokuapp.com/newsweek">http://tbaloo.com/tumbvr/newsweek</a> or <a href="http://tumbvr.herokuapp.com/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a>
+				Set http://tbaloo.com/tumbvr/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tbaloo.com/tumbvr/newsweek">http://tbaloo.com/tumbvr/newsweek</a> or <a href="http://tbaloo.com/tumbvr/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a>
 			</p>
 		</div>
 		<a-scene physics='gravity: -9.8' antialias='true'>
 			<a-sky color="#aaf"></a-sky>
-			<a-camera fov="60"></a-camera>
+			<a-entity id="camParent">
+				<a-camera fov="60"></a-camera>
+			</a-entity>
 			<a-light type="point" color="white" angle="90" position="0 5 0"></a-light>
 			<a-light type="ambient" color="#333"></a-light>
 

@@ -17,7 +17,30 @@
     THREE.ImageUtils.loadTextureCube.crossOrigin           = "anonymous";
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
 	
+	//Samsung VR browser background
+	if ('SamsungChangeSky' in window) {
+		window.SamsungChangeSky({ sphere: '/public/samsung_background.jpg' });
+	}
+
+    function checkDeviceOnEnterVR(){
+		/**
+		 * Check the device, if no position set the camera upper
+		 * @type {[type]}
+		 */
+		var getVRDisplays = navigator.getVRDisplays || navigator.getVRDevices;
+
+		if(getVRDisplays){
+			navigator.getVRDisplays().then( function(data){
+				if(data.length && !data[0].capabilities.hasPosition && data[0].isPresenting){
+					document.querySelector("#camParent").setAttribute("position", "0 1.6 0");
+				}
+			});
+		}
+    }
+
 	var aScene       = document.querySelector("a-scene");
+	aScene.addEventListener('enter-vr', checkDeviceOnEnterVR);
+
 	var assetList    = document.createElement("a-assets");
 	aScene.appendChild(assetList);
 
@@ -74,22 +97,6 @@
 
 	var ballsIDs = ["ball1", "ball2", "ball3"];
 	new BallsManager(ballsIDs);
-
-	// var getVRDisplays = navigator.getVRDisplays || navigator.getVRDevices;
-
-	// if(getVRDisplays){
-	// 	navigator.getVRDisplays().then( function(data){
-	// 		if(data.length && data[0].stageParameters){
-	// 			createScene({x : data[0].stageParameters.sizeX, z : data[0].stageParameters.sizeZ});
-	// 		}
-	// 		else{
-	// 			createScene({x : SCENE_SIZE, z : SCENE_SIZE});
-	// 		}
-	// 	});
-	// }
-	// else{
-	// 	createScene({x : SCENE_SIZE, z : SCENE_SIZE});
-	// }
 
 	/**
 	 * Add collision walls
