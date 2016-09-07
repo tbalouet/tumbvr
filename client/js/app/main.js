@@ -32,7 +32,12 @@
 		if(getVRDisplays){
 			navigator.getVRDisplays().then( function(data){
 				if(data.length && !data[0].capabilities.hasPosition && data[0].isPresenting){
-					document.querySelector("#camParent").setAttribute("position", "0 1.6 0");
+					document.querySelector('[camera]').addEventListener('componentchanged', function (evt) {
+						if (evt.detail.name === 'position') {
+							//Forcing the Y position to a certain height on non positional tracking headsets
+							document.querySelector('[camera]').getAttribute("position").y = 1.6;
+						}
+					});
 				}
 			});
 		}
