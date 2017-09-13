@@ -30,7 +30,7 @@ var ImageLoader;
 
 			var imgAsset = document.createElement("img");
 			imgAsset.setAttribute("id", "img"+i);
-			imgAsset.setAttribute("src", "http://ec2-52-27-113-232.us-west-2.compute.amazonaws.com:8080/" + pic.url);
+			imgAsset.setAttribute("src", "ec2-35-176-54-164.eu-west-2.compute.amazonaws.com:8080/" + pic.url);
 			imgAsset.setAttribute("crossorigin", "anonymous");
 			this.assetList.appendChild(imgAsset);
 
