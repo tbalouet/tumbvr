@@ -31,6 +31,7 @@
 			    padding-left: 15px;
 			}
 		</style>
+    <script src="https://tbaloo.com/public/js/gar-calculator.min.js?tmstp=42"></script>
 	</head>
 	<body>
 		<div class="advertising">
@@ -63,6 +64,10 @@
 			<a-box id="tableBasket2" static-body position="-0.34 1.125 -1.14" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket4" static-body position="-0.34 1.125 -0.86" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket1" static-body position="-0.19 1.125 -1" width="0.02" height="0.2" depth="0.3" color="#4E57B2"></a-box>
+      
+     <!-- AD DEMO -->
+      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models/coke/scene.gltf;adID:coke007" position="3.738 -3.845 -6.188" scale="0.5 0.5 0.5" ></a-entity>
+      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models//tavolo/scene.gltf;adID:tavolo" position="3.787 -6.282 -6.946" scale="0.004 0.004 0.004"></a-entity>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>
