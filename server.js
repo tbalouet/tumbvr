@@ -35,17 +35,17 @@ if(key === "YOUR_KEY_HERE"){
 var tumbClient = tumblr.createClient({ consumer_key: key });
 
 
-app.use(express.static(__dirname + '/public', {maxAge : conf.maxAge}));
+app.use('/public/', express.static(__dirname + '/public/', {maxAge : conf.maxAge}));
 
 function routeTumbVR(req, res){
 	var tumbID = req.params[0];
 	if(tumbID === undefined || tumbID === ""){
-		tumbID = "aframevr";
+		tumbID = "welovepaintings";
 	}
 	// Make the request to retrieve posts from tumblr
 	tumbClient.blogPosts(tumbID+'.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
 		if(data === null){
-			tumbClient.blogPosts('aframevr.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
+			tumbClient.blogPosts('welovepaintings.tumblr.com', { type: 'photo', filter: 'text' }, function (err, data) {
 		  		res.render('tumbvr_index.ejs', {mainFile : conf.mainFile, aFrameFile : conf.aFrameFile, tumblrdata : data});
 			});
 		}

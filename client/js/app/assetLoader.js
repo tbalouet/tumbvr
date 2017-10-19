@@ -24,19 +24,19 @@ var AssetLoader;
 	AssetLoader.prototype.loadObj = function(assetName){
 		var assetOBJ = document.createElement("a-asset-item");
 		assetOBJ.setAttribute("id", "asset_"+assetName+"-obj");
-		assetOBJ.setAttribute("src", "/public/assets/"+assetName+".obj");
+		assetOBJ.setAttribute("src", "/public/assets/models/"+assetName+".obj");
 		this.assetList.appendChild(assetOBJ);
 
 		var assetMTL = document.createElement("a-asset-item");
 		assetMTL.setAttribute("id", "asset_"+assetName+"-mtl");
-		assetMTL.setAttribute("src", "/public/assets/"+assetName+".mtl");
+		assetMTL.setAttribute("src", "/public/assets/models/"+assetName+".mtl");
 		this.assetList.appendChild(assetMTL);
 	}
 
 	AssetLoader.prototype.loadDae = function(assetName){
 		var assetCollada = document.createElement("a-asset-item");
 		assetCollada.setAttribute("id", "asset_"+assetName+"-dae");
-		assetCollada.setAttribute("src", "/public/assets/"+assetName+".dae");
+		assetCollada.setAttribute("src", "/public/assets/models/"+assetName+".dae");
 		this.assetList.appendChild(assetCollada);
 	}
 

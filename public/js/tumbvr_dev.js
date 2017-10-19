@@ -25,19 +25,19 @@ var AssetLoader;
 	AssetLoader.prototype.loadObj = function(assetName){
 		var assetOBJ = document.createElement("a-asset-item");
 		assetOBJ.setAttribute("id", "asset_"+assetName+"-obj");
-		assetOBJ.setAttribute("src", "/public/assets/"+assetName+".obj");
+		assetOBJ.setAttribute("src", "/public/assets/models/"+assetName+".obj");
 		this.assetList.appendChild(assetOBJ);
 
 		var assetMTL = document.createElement("a-asset-item");
 		assetMTL.setAttribute("id", "asset_"+assetName+"-mtl");
-		assetMTL.setAttribute("src", "/public/assets/"+assetName+".mtl");
+		assetMTL.setAttribute("src", "/public/assets/models/"+assetName+".mtl");
 		this.assetList.appendChild(assetMTL);
 	}
 
 	AssetLoader.prototype.loadDae = function(assetName){
 		var assetCollada = document.createElement("a-asset-item");
 		assetCollada.setAttribute("id", "asset_"+assetName+"-dae");
-		assetCollada.setAttribute("src", "/public/assets/"+assetName+".dae");
+		assetCollada.setAttribute("src", "/public/assets/models/"+assetName+".dae");
 		this.assetList.appendChild(assetCollada);
 	}
 
@@ -68,6 +68,7 @@ var AssetLoader;
 
 })();
 module.exports = AssetLoader;
+
 },{}],2:[function(require,module,exports){
 var BallsManager;
 (function(){
@@ -152,11 +153,11 @@ var ImageLoader;
 	 */
 	ImageLoader = function(assetList, imageData){
 		this.assetList      = assetList;
-		
+
 		this.imgArray       = [];
 		this.nbFrames       = Math.min(imageData.length, 12);
 		this.loadAssets(imageData);
-		
+
 		this.rotatingFrames = [];
 		this.tempRot		= new THREE.Vector3();
 
@@ -198,7 +199,6 @@ var ImageLoader;
 
 		for(var i=0; i < this.nbFrames; ++i){
 			var img = document.createElement("a-image");
-			img.setAttribute("static-body", "true");
 			aScene.appendChild(img);
 
 			img.addEventListener('collide', this.onCollide.bind(this));
@@ -212,7 +212,7 @@ var ImageLoader;
 				rot.y = 90;
 			}
 
-  			img.setAttribute('position', pos);
+			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
 
 			this.addFrame(img, this.imgArray[i]);
@@ -222,13 +222,23 @@ var ImageLoader;
 	};
 
 	ImageLoader.prototype.addFrame = function(imgEntity, imgProperties){
-		//Size calculation for correct rendering
-		var width = Math.min(2, (imgProperties.ratio < 1 ? 1.5 * 1 / imgProperties.ratio : 1.5));
-		var height = Math.min(2, (imgProperties.ratio < 1 ? 1.5 : 1.5 * imgProperties.ratio));
-		imgEntity.setAttribute("width", width);
-		imgEntity.setAttribute("height", height);
+    function onImageComplete(){
+    	//Size calculation for correct rendering
+    	var width = Math.min(2, (imgProperties.ratio < 1 ? 1.5 * 1 / imgProperties.ratio : 1.5));
+    	var height = Math.min(2, (imgProperties.ratio < 1 ? 1.5 : 1.5 * imgProperties.ratio));
+    	imgEntity.setAttribute("width", width);
+    	imgEntity.setAttribute("height", height);
 
-		imgEntity.setAttribute("src", "#"+imgProperties.id);
+    	imgEntity.setAttribute("src", "#"+imgProperties.id);
+    }
+
+    var img = document.querySelector("#"+imgProperties.id);
+    if(img.complete){
+      onImageComplete();
+    }
+    else{
+      img.addEventListener('load', onImageComplete);
+    }
 	};
 
 	ImageLoader.prototype.onCollide = function(event){
@@ -258,6 +268,7 @@ var ImageLoader;
 	};
 })();
 module.exports = ImageLoader;
+
 },{}],4:[function(require,module,exports){
 //Main file served by the application
 (function(){
@@ -277,7 +288,7 @@ module.exports = ImageLoader;
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
     THREE.ImageUtils.loadTextureCube.crossOrigin           = "anonymous";
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
-	
+
 	//Samsung VR browser background
 	if ('SamsungChangeSky' in window) {
 		window.SamsungChangeSky({ sphere: '/public/samsung_background.jpg' });
@@ -322,10 +333,10 @@ module.exports = ImageLoader;
 	 */
 	var audioAsset = document.createElement("audio");
 	audioAsset.setAttribute("id", "amazingGrace2011");
-	audioAsset.setAttribute("src", "public/amazingGrace2011.WAV");
+	audioAsset.setAttribute("src", "public/sounds/amazingGrace2011.WAV");
 	assetList.appendChild(audioAsset);
 	var speakerMesh = new AssetLoader(assetList, "obj", "speaker", new THREE.Vector3(0, 0, -1.05), new THREE.Vector3(0.4, 0.4, 0.4));
-	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;autoplay:true;loop:true");
+	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;loop:true");
 
 	/**
 	 * Function to check if the model is fully loaded before calling callback
@@ -369,7 +380,6 @@ module.exports = ImageLoader;
 	 */
 	for(var i=0; i < 6; ++i){
 		var colBox = document.createElement("a-box");
-		colBox.setAttribute("static-body", "true");
 		colBox.setAttribute("id", "colBox_"+i);
 		colBox.setAttribute("visible", false);
 		if(i < 2){
@@ -396,5 +406,10 @@ module.exports = ImageLoader;
 	document.querySelector("#colBox_3").setAttribute("position", new THREE.Vector3(4.1, 1, 0));
 	document.querySelector("#colBox_4").setAttribute("position", new THREE.Vector3(0, 1, 4.1));
 	document.querySelector("#colBox_5").setAttribute("position", new THREE.Vector3(0, 1, -4.1));
+
+  document.querySelector("#butOK").addEventListener("click", function(){
+    document.querySelector("#amazingGrace2011").play();
+  })
 })();
+
 },{"./assetLoader.js":1,"./ballsManager.js":2,"./imageLoader.js":3}]},{},[4]);

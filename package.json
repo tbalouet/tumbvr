@@ -4,40 +4,25 @@
   "description": "A museum in VR with aFrame and Tumblr",
   "main": "server.js",
   "devDependencies": {
-    "browserify"     : "*",
-    "better-npm-run" : "~0.0.1",
-    "nodemon"        : "^1.9.2",
-    "uglify-js"      : "^2.6.1",
-    "watchify"       : "^3.7.0"
+    "browserify": "*",
+    "nodemon": "^1.12.1",
+    "uglify-js": "^2.6.1",
+    "watchify": "^3.7.0"
   },
   "scripts": {
-    "watch" : "watchify client/js/app/main.js -o public/tumbvr_dev.js -v",
-    "build" : "browserify client/js/app/main.js | uglifyjs -cm > public/tumbvr_prod.js",
+    "watch": "watchify client/js/app/main.js -o public/tumbvr_dev.js -v",
     "build": "browserify client/js/app/main.js -o public/tumbvr_dev.js -v && browserify client/js/app/main.js | uglifyjs -cm > public/tumbvr_prod.js",
-    "dev"   : "better-npm-run dev",
-    "prod"  : "better-npm-run prod",
-    "start" : "node server.js"
-  },
-  "betterScripts": {
-    "dev": {
-      "command": "nodemon server.js",
-      "env": {
-        "NODE_ENV": "dev"
-      }
-    },
-    "prod": {
-      "command": "nodemon server.js",
-      "env": {
-        "NODE_ENV": "prod"
-      }
-    }
+    "dev": "set NODE_ENV=dev&& concurrently \"nodemon server.js\" \"watchify client/js/app/main.js -o public/js/tumbvr_dev.js -v\"",
+    "prod": "set NODE_ENV=prod&& node server.js",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ejs"           : "^2.4.1",
-    "express"       : "^4.13.4",
-    "tumblr.js"     : "^1.0.0",
-    "cors-anywhere" : "*"
+    "concurrently": "^3.1.0",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "tumblr.js": "^1.0.0",
+    "cors-anywhere": "*"
   }
 }

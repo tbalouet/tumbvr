@@ -8,11 +8,11 @@ var ImageLoader;
 	 */
 	ImageLoader = function(assetList, imageData){
 		this.assetList      = assetList;
-		
+
 		this.imgArray       = [];
 		this.nbFrames       = Math.min(imageData.length, 12);
 		this.loadAssets(imageData);
-		
+
 		this.rotatingFrames = [];
 		this.tempRot		= new THREE.Vector3();
 
@@ -54,7 +54,6 @@ var ImageLoader;
 
 		for(var i=0; i < this.nbFrames; ++i){
 			var img = document.createElement("a-image");
-			img.setAttribute("static-body", "true");
 			aScene.appendChild(img);
 
 			img.addEventListener('collide', this.onCollide.bind(this));
@@ -68,7 +67,7 @@ var ImageLoader;
 				rot.y = 90;
 			}
 
-  			img.setAttribute('position', pos);
+			img.setAttribute('position', pos);
 			img.setAttribute("rotation", rot);
 
 			this.addFrame(img, this.imgArray[i]);
@@ -78,13 +77,23 @@ var ImageLoader;
 	};
 
 	ImageLoader.prototype.addFrame = function(imgEntity, imgProperties){
-		//Size calculation for correct rendering
-		var width = Math.min(2, (imgProperties.ratio < 1 ? 1.5 * 1 / imgProperties.ratio : 1.5));
-		var height = Math.min(2, (imgProperties.ratio < 1 ? 1.5 : 1.5 * imgProperties.ratio));
-		imgEntity.setAttribute("width", width);
-		imgEntity.setAttribute("height", height);
+    function onImageComplete(){
+    	//Size calculation for correct rendering
+    	var width = Math.min(2, (imgProperties.ratio < 1 ? 1.5 * 1 / imgProperties.ratio : 1.5));
+    	var height = Math.min(2, (imgProperties.ratio < 1 ? 1.5 : 1.5 * imgProperties.ratio));
+    	imgEntity.setAttribute("width", width);
+    	imgEntity.setAttribute("height", height);
 
-		imgEntity.setAttribute("src", "#"+imgProperties.id);
+    	imgEntity.setAttribute("src", "#"+imgProperties.id);
+    }
+
+    var img = document.querySelector("#"+imgProperties.id);
+    if(img.complete){
+      onImageComplete();
+    }
+    else{
+      img.addEventListener('load', onImageComplete);
+    }
 	};
 
 	ImageLoader.prototype.onCollide = function(event){

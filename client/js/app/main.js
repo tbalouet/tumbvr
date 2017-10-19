@@ -16,7 +16,7 @@
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
     THREE.ImageUtils.loadTextureCube.crossOrigin           = "anonymous";
     THREE.ImageUtils.loadTextureCube.prototype.crossOrigin = "anonymous";
-	
+
 	//Samsung VR browser background
 	if ('SamsungChangeSky' in window) {
 		window.SamsungChangeSky({ sphere: '/public/samsung_background.jpg' });
@@ -61,10 +61,10 @@
 	 */
 	var audioAsset = document.createElement("audio");
 	audioAsset.setAttribute("id", "amazingGrace2011");
-	audioAsset.setAttribute("src", "public/amazingGrace2011.WAV");
+	audioAsset.setAttribute("src", "public/sounds/amazingGrace2011.WAV");
 	assetList.appendChild(audioAsset);
 	var speakerMesh = new AssetLoader(assetList, "obj", "speaker", new THREE.Vector3(0, 0, -1.05), new THREE.Vector3(0.4, 0.4, 0.4));
-	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;autoplay:true;loop:true");
+	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;loop:true");
 
 	/**
 	 * Function to check if the model is fully loaded before calling callback
@@ -108,7 +108,6 @@
 	 */
 	for(var i=0; i < 6; ++i){
 		var colBox = document.createElement("a-box");
-		colBox.setAttribute("static-body", "true");
 		colBox.setAttribute("id", "colBox_"+i);
 		colBox.setAttribute("visible", false);
 		if(i < 2){
@@ -135,4 +134,8 @@
 	document.querySelector("#colBox_3").setAttribute("position", new THREE.Vector3(4.1, 1, 0));
 	document.querySelector("#colBox_4").setAttribute("position", new THREE.Vector3(0, 1, 4.1));
 	document.querySelector("#colBox_5").setAttribute("position", new THREE.Vector3(0, 1, -4.1));
+
+  document.querySelector("#butOK").addEventListener("click", function(){
+    document.querySelector("#amazingGrace2011").play();
+  })
 })();

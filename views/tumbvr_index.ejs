@@ -8,47 +8,43 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<script src=<%= aFrameFile %>></script>
-		<script src="/public/aframe-extras.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/styles/webvr-style.css">
 
-		<style>
-			body {
-				width            : 100%;
-				height           : 100%;
-				background-color : #000;
-				color            : #fff;
-				margin           : 0px;
-				padding          : 0;
-				overflow         : hidden;
-			}
-			.advertising{
-				top: 0;
-			    left: 0;
-			    width: 100%;
-			    background-color: #D08888;
-			    position: absolute;
-			    z-index: 1;
-			    padding-left: 15px;
-			}
-		</style>
-    <script src="https://tbaloo.com/public/js/gar-calculator.min.js?tmstp=42"></script>
+		<script src=<%= aFrameFile %>></script>
+		<script src="/public/js/aframe-physics-system.min.js"></script>
 	</head>
 	<body>
-		<div class="advertising">
-			<p>
-				Set http://tbaloo.com/tumbvr/USER_TUMBLR_ID to access its profile gallery. Try <a href="http://tbaloo.com/tumbvr/newsweek">http://tbaloo.com/tumbvr/newsweek</a> or <a href="http://tbaloo.com/tumbvr/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a>
-			</p>
-		</div>
+    <div id="introContainer" class="dialog-container make-container--visible">
+      <div class="dialog">
+        <div class="dialog-title">Tumblr images inside a VR Gallery!</div>
+        <div class="dialog-body">
+          <p>Now you can naviguate through your favorite Tumblr gallery like if you were in a museum!</p>
+          <p>Use the URL <b>http://tbaloo.com/tumbvr/USER_TUMBLR_ID</b> to access its profile gallery.</p>
+          <p>Try one of those:
+            <ul>
+              <li><a href="http://tbaloo.com/tumbvr/newsweek">http://tbaloo.com/tumbvr/newsweek</a></li>
+              <li><a href="http://tbaloo.com/tumbvr/theonlymagicleftisart">http://tbaloo.com/tumbvr/theonlymagicleftisart</a></li>
+            </ul>
+          </p>
+        </div>
+        <div class="dialog-buttons">
+          <button id="butOK" class="button" onclick='document.querySelector("#introContainer").classList.remove("make-container--visible");'>OK</button>
+        </div>
+      </div>
+    </div>
+
 		<a-scene physics='gravity: -9.8' antialias='true'>
 			<a-sky color="#aaf"></a-sky>
+
 			<a-entity id="camParent">
 				<a-camera fov="60"></a-camera>
 			</a-entity>
+
 			<a-light type="point" color="white" angle="90" position="0 5 0"></a-light>
 			<a-light type="ambient" color="#333"></a-light>
 
 			<a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: left" sphere-collider="objects: .throwable" grab></a-entity>
-      		<a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: right" sphere-collider="objects: .throwable" grab></a-entity>
+  		<a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" vive-controls="hand: right" sphere-collider="objects: .throwable" grab></a-entity>
 
 			<!-- Ammo and table-->
 
@@ -64,10 +60,6 @@
 			<a-box id="tableBasket2" static-body position="-0.34 1.125 -1.14" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket4" static-body position="-0.34 1.125 -0.86" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket1" static-body position="-0.19 1.125 -1" width="0.02" height="0.2" depth="0.3" color="#4E57B2"></a-box>
-      
-     <!-- AD DEMO -->
-      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models/coke/scene.gltf;adID:coke007" position="3.738 -3.845 -6.188" scale="0.5 0.5 0.5" ></a-entity>
-      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models//tavolo/scene.gltf;adID:tavolo" position="3.787 -6.282 -6.946" scale="0.004 0.004 0.004"></a-entity>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>
