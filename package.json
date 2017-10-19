@@ -11,7 +11,7 @@
   },
   "scripts": {
     "watch": "watchify client/js/app/main.js -o public/tumbvr_dev.js -v",
-    "build": "browserify client/js/app/main.js -o public/tumbvr_dev.js -v && browserify client/js/app/main.js | uglifyjs -cm > public/tumbvr_prod.js",
+    "build": "browserify client/js/app/main.js -o public/js/tumbvr_dev.js -v && browserify client/js/app/main.js | uglifyjs -cm > public/js/tumbvr_prod.js",
     "dev": "set NODE_ENV=dev&& concurrently \"nodemon server.js\" \"watchify client/js/app/main.js -o public/js/tumbvr_dev.js -v\"",
     "prod": "set NODE_ENV=prod&& node server.js",
     "start": "node server.js"
