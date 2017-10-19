@@ -26,11 +26,11 @@ var ImageLoader;
 	 */
 	ImageLoader.prototype.loadAssets = function(imageData){
 		for(var i=0; i < imageData.length; ++i){
-			var pic = imageData[i].photos[0].original_size;
+			var pic = imageData[i].photos[0].alt_sizes[1];
 
 			var imgAsset = document.createElement("img");
 			imgAsset.setAttribute("id", "img"+i);
-			imgAsset.setAttribute("src", /*"ec2-35-176-54-164.eu-west-2.compute.amazonaws.com:8080/" +*/ pic.url);
+			imgAsset.setAttribute("src", pic.url);
 			imgAsset.setAttribute("crossorigin", "anonymous");
 			this.assetList.appendChild(imgAsset);
 
@@ -48,7 +48,7 @@ var ImageLoader;
 	ImageLoader.prototype.onAssetsLoaded = function(){
 		var aScene       = document.querySelector("a-scene");
 
-		var galleryMesh = document.querySelector('#mesh_cavanagh').getObject3D('mesh');
+		var galleryMesh = document.querySelector('#mainScene').getObject3D('mesh');
 
 		var planeMeshArray = galleryMesh.children.filter(function(obj){ return obj.name.indexOf("Plane") !== -1;});
 

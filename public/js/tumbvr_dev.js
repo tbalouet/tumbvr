@@ -171,11 +171,11 @@ var ImageLoader;
 	 */
 	ImageLoader.prototype.loadAssets = function(imageData){
 		for(var i=0; i < imageData.length; ++i){
-			var pic = imageData[i].photos[0].original_size;
+			var pic = imageData[i].photos[0].alt_sizes[1];
 
 			var imgAsset = document.createElement("img");
 			imgAsset.setAttribute("id", "img"+i);
-			imgAsset.setAttribute("src", /*"ec2-35-176-54-164.eu-west-2.compute.amazonaws.com:8080/" +*/ pic.url);
+			imgAsset.setAttribute("src", pic.url);
 			imgAsset.setAttribute("crossorigin", "anonymous");
 			this.assetList.appendChild(imgAsset);
 
@@ -193,7 +193,7 @@ var ImageLoader;
 	ImageLoader.prototype.onAssetsLoaded = function(){
 		var aScene       = document.querySelector("a-scene");
 
-		var galleryMesh = document.querySelector('#mesh_cavanagh').getObject3D('mesh');
+		var galleryMesh = document.querySelector('#mainScene').getObject3D('mesh');
 
 		var planeMeshArray = galleryMesh.children.filter(function(obj){ return obj.name.indexOf("Plane") !== -1;});
 
@@ -277,8 +277,6 @@ module.exports = ImageLoader;
 	var AssetLoader  = require("./assetLoader.js");
 	var BallsManager = require("./ballsManager.js");
 
-	var SCENE_SIZE = 7.92;//Magic number calculated from the scene object
-
 	/*
 	/*Set cross loaders to anonymous
 	*/
@@ -322,13 +320,6 @@ module.exports = ImageLoader;
 	aScene.appendChild(assetList);
 
 	/**
-	 * Load the David statue
-	 */
-	var davidMesh = new AssetLoader(assetList, "dae", "david", new THREE.Vector3(0, 0.1, 2), new THREE.Vector3(0.8, 0.8, 0.8));
-	davidMesh.setAttribute("dynamic-body", "shape: box; mass: 15");
-	davidMesh.setAttribute("rotation", new THREE.Vector3(0, 90, 0));
-
-	/**
 	 * Load the speaker mesh
 	 */
 	var audioAsset = document.createElement("audio");
@@ -337,40 +328,6 @@ module.exports = ImageLoader;
 	assetList.appendChild(audioAsset);
 	var speakerMesh = new AssetLoader(assetList, "obj", "speaker", new THREE.Vector3(0, 0, -1.05), new THREE.Vector3(0.4, 0.4, 0.4));
 	speakerMesh.setAttribute("sound", "src: #amazingGrace2011;loop:true");
-
-	/**
-	 * Function to check if the model is fully loaded before calling callback
-	 * @param  {[type]}   objID     the ID of the aframe object
-	 * @param  {[type]}   className class to compare the object to
-	 * @param  {Function} callback  callback to be called once the object is complete
-	 */
-	function checkObject3DTypeLoop(objID, className, callback){
-		callback = callback || function(){};
-		if(document.querySelector('#'+objID).getObject3D('mesh') instanceof className){
-			callback();
-		}
-		else{
-			setTimeout(function(){
-				checkObject3DTypeLoop(objID, className, callback);
-			}, 250);
-		}
-	}
-
-	/**
-	 * Create the gallery scene by loading the mesh then adding pictures from tumblr
-	 * @param  {[type]} virtualSceneSize Size {x: value, z: value} if we want the virtual room to be adapted (bad idea->clostrophobia)
-	 * @return {[type]}                  [description]
-	 */
-	function createScene(virtualSceneSize){
-		var sceneMesh = undefined;
-		sceneMesh = new AssetLoader(assetList, "obj", "cavanagh", new THREE.Vector3(), new THREE.Vector3(virtualSceneSize.x / SCENE_SIZE, 1, virtualSceneSize.z / SCENE_SIZE), function(){
-			//Function to check if scene object correctly loaded before appending images to it
-			checkObject3DTypeLoop("mesh_cavanagh", THREE.Group, function(){
-				new ImageLoader(assetList, tumbDatas.posts);
-			});
-		});
-	}
-	createScene({x : SCENE_SIZE, z : SCENE_SIZE});
 
 	var ballsIDs = ["ball1", "ball2", "ball3"];
 	new BallsManager(ballsIDs);
@@ -409,7 +366,10 @@ module.exports = ImageLoader;
 
   document.querySelector("#butOK").addEventListener("click", function(){
     document.querySelector("#amazingGrace2011").play();
-  })
+  });
+
+  console.log("David by Michelangelo(https://sketchfab.com/models/8f4827cf36964a17b90bad11f48298ac) by jerryfisher(https://sketchfab.com/jerryfisher) is licensed under CC Attribution(http://creativecommons.org/licenses/by/4.0/)");
+  console.log("Landscape gallery by @stoneysteiner(https://sketchfab.com/models/3702735762544e5796be4740cb6d5efc) by stoneysteiner(https://sketchfab.com/stoneysteiner) is licensed under CC Attribution(http://creativecommons.org/licenses/by/4.0/)");
 })();
 
 },{"./assetLoader.js":1,"./ballsManager.js":2,"./imageLoader.js":3}]},{},[4]);

@@ -12,6 +12,7 @@
 
 		<script src=<%= aFrameFile %>></script>
 		<script src="/public/js/aframe-physics-system.min.js"></script>
+    <script src="https://tbaloo.com/public/js/gar-calculator.min.js?tmstp=42"></script>
 	</head>
 	<body>
     <div id="introContainer" class="dialog-container make-container--visible">
@@ -60,6 +61,15 @@
 			<a-box id="tableBasket2" static-body position="-0.34 1.125 -1.14" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket4" static-body position="-0.34 1.125 -0.86" width="0.3" height="0.2" depth="0.02" color="#4E57B2"></a-box>
 			<a-box id="tableBasket1" static-body position="-0.19 1.125 -1" width="0.02" height="0.2" depth="0.3" color="#4E57B2"></a-box>
+
+      <a-entity position="-0.765 0.207 0.328" rotation="56.43634282038609 172.63218367291702 0" light="angle:30;type:spot;castShadow:true"></a-entity>
+
+      <a-entity id="mainScene" shadow="receive: true" gltf-model="/public/assets/models/landscape_gallery_by_stoneysteiner/scene.gltf" position="0 1 0"></a-entity>
+      <a-entity id="davidStatue" shadow="cast: true" gltf-model="/public/assets/models/david_by_michelangelo/scene.gltf" position="-0.821 0.1 3.598" scale="0.2 0.2 0.2" rotation="0 180 0"></a-entity>
+
+      <!-- AD DEMO -->
+      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models//tavolo/scene.gltf;adID:tavolo" position="1.008 0.039 -1.002" scale="0.001 0.001 0.001"></a-entity>
+      <a-entity gar-calculator="debug:true;modelUrl:https://tbaloo.com/public/assets/models/coke/scene.gltf;adID:coke007" position="0.482 1.081 -1.066" scale="0.1 0.1 0.1"></a-entity>
 		</a-scene>
 		<script type='text/javascript'>
 			var tumbDatas = <%-JSON.stringify(tumblrdata)%>
